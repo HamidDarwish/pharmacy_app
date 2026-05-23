@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '/../features/medicines/presentation/pages/medicines_list_page.dart';
 import '/../features/medicines/presentation/bloc/medicine_bloc.dart';
 import '/../dependency_injection.dart';
@@ -33,20 +34,18 @@ class AppRoutes {
   static const String settings = '/settings';
 
   static final Map<String, WidgetBuilder> routes = {
-    splash: (_) => const SizedBox(),
-    login: (_) => const SizedBox(),
     dashboard: (_) => const DashboardPage(),
     medicinesList: (_) => BlocProvider(
       create: (_) => getIt<MedicineBloc>(),
       child: const MedicinesListPage(),
     ),
     addMedicine: (_) => const SizedBox(),
-    pos: (_) => const SizedBox(),
-    inventory: (_) => const SizedBox(),
-    reports: (_) => const SizedBox(),
-    orders: (_) => const SizedBox(),
-    users: (_) => const SizedBox(),
-    settings: (_) => const SizedBox(),
+    pos: (_) => const SizedBox(child: Center(child: Text('فروش'))),
+    inventory: (_) => const SizedBox(child: Center(child: Text('موجودی'))),
+    reports: (_) => const SizedBox(child: Center(child: Text('گزارشات'))),
+    orders: (_) => const SizedBox(child: Center(child: Text('فروش‌ها'))),
+    users: (_) => const SizedBox(child: Center(child: Text('کاربران'))),
+    settings: (_) => const SizedBox(child: Center(child: Text('تنظیمات'))),
   };
 
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
@@ -83,7 +82,9 @@ class DashboardPage extends StatelessWidget {
             icon: Icons.shopping_cart,
             title: 'فروش',
             color: Colors.blue,
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, AppRoutes.pos);
+            },
           ),
           _DashboardCard(
             icon: Icons.medication,
@@ -97,13 +98,41 @@ class DashboardPage extends StatelessWidget {
             icon: Icons.inventory,
             title: 'موجودی',
             color: Colors.orange,
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, AppRoutes.inventory);
+            },
           ),
           _DashboardCard(
             icon: Icons.analytics,
             title: 'گزارشات',
             color: Colors.purple,
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, AppRoutes.reports);
+            },
+          ),
+          _DashboardCard(
+            icon: Icons.receipt,
+            title: 'فروش‌ها',
+            color: Colors.teal,
+            onTap: () {
+              Navigator.pushNamed(context, AppRoutes.orders);
+            },
+          ),
+          _DashboardCard(
+            icon: Icons.people,
+            title: 'کاربران',
+            color: Colors.indigo,
+            onTap: () {
+              Navigator.pushNamed(context, AppRoutes.users);
+            },
+          ),
+          _DashboardCard(
+            icon: Icons.settings,
+            title: 'تنظیمات',
+            color: Colors.grey,
+            onTap: () {
+              Navigator.pushNamed(context, AppRoutes.settings);
+            },
           ),
         ],
       ),
@@ -128,7 +157,7 @@ class _DashboardCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       child: InkWell(
-        onTap: onTap,
+        onTap: onTap,  // ✅ حالا کار می‌کند
         child: Container(
           decoration: BoxDecoration(
             color: color.withOpacity(0.1),

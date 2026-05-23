@@ -1,39 +1,55 @@
+import java.util.Properties
+
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.reader(Charsets.UTF_8).use {
+        localProperties.load(it)
+    }
+}
+
+val flutterVersionCode =
+    localProperties.getProperty("flutter.versionCode") ?: "1"
+
+val flutterVersionName =
+    localProperties.getProperty("flutter.versionName") ?: "1.0"
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
-    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
 }
 
 android {
-    namespace = "com.example.untitled"
+    namespace = "com.example.pharmacy_app"
     compileSdk = 37
-    ndkVersion = flutter.ndkVersion
+    ndkVersion = "28.2.13676358"
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+        isCoreLibraryDesugaringEnabled = true
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
+        jvmTarget = "11"
+    }
+
+    sourceSets {
+        getByName("main").java.srcDir("src/main/kotlin")
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.example.untitled"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
+        applicationId = "com.example.pharmacy_app"
         minSdk = flutter.minSdkVersion
         targetSdk = 37
-        versionCode = flutter.versionCode
-        versionName = flutter.versionName
+        versionCode = flutterVersionCode.toInt()
+        versionName = flutterVersionName
     }
 
     buildTypes {
-        release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
+        getByName("release") {
             signingConfig = signingConfigs.getByName("debug")
         }
     }
@@ -41,4 +57,9 @@ android {
 
 flutter {
     source = "../.."
+}
+
+dependencies {
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.0")
 }

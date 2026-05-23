@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
+import '../../domain/entities/medicine_entity.dart';
 import '../bloc/medicine_bloc.dart';
 import '../widgets/medicine_list_item.dart';
 

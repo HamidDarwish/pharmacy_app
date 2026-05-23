@@ -5,6 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'core/database/database_service.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/app_colors.dart';
+import 'core/config/routes/app_routes.dart';
 import 'dependency_injection.dart';
 
 void main() async {
@@ -45,8 +46,10 @@ class MyApp extends StatelessWidget {
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.light,
 
-      // Home
-      home: const SplashPage(),
+      // Navigation - حل شد
+      initialRoute: AppRoutes.dashboard,  // ✅ صفحه اولیه
+      routes: AppRoutes.routes,
+      onGenerateRoute: AppRoutes.onGenerateRoute,
 
       // Responsive
       builder: (context, child) {
@@ -57,64 +60,6 @@ class MyApp extends StatelessWidget {
           child: child ?? const SizedBox(),
         );
       },
-    );
-  }
-}
-
-class SplashPage extends StatefulWidget {
-  const SplashPage({Key? key}) : super(key: key);
-
-  @override
-  State<SplashPage> createState() => _SplashPageState();
-}
-
-class _SplashPageState extends State<SplashPage> {
-  @override
-  void initState() {
-    super.initState();
-    _navigateToHome();
-  }
-
-  void _navigateToHome() async {
-    await Future.delayed(const Duration(seconds: 2));
-    if (mounted) {
-      Navigator.of(context).pushReplacementNamed('/dashboard');
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.primary,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.local_pharmacy,
-              size: 80,
-              color: Colors.white,
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              'داروخانه',
-              style: TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              'نسخه 1.0.0',
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.white70,
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
